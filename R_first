@@ -17,3 +17,16 @@ plot(water, fishes)
 # a table in R is called data frame
 
 streams <- data.frame (water, fishes)
+
+# From now on, we are going to import and/or esport data 
+
+#setwd("/Users/soniamigneco/Desktop/lab")  
+
+# Let's exoprt our table!
+write.table( streams, file="my_first_tabòe.txt")
+
+# Some collegues did send us a table How 
+
+read.table("my_first_table.txt")
+
+ducciotable <- read.table("my_first_table.txt")
