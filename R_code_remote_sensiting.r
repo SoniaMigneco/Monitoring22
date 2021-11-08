@@ -54,6 +54,8 @@ clb <- colorRampPalette(c("dark blue","blue","light blue"))(100)
 plot(l2011$B1_sre, col=clb)
                         
 # plot both images in just  one multiframe graph 
+
+library(raster)                        
 [10:44] Duccio Rocchini
 par(mfrow=c(1,2))
 
@@ -65,3 +67,14 @@ plot(l2011$B2_sre, col=clg)
 par(mfrow=c(2,1))
 plot(l2011$B1_sre, col=clb)
 plot(l2011$B2_sre, col=clg)
+
+# setwd("/Users/soniamigneco/Desktop")
+l2011<- brick("p224r63_2011.grd")
+plot(l2011$B1_sre)
+
+clb <- colorRampPalette(c("dark blue","blue","light blue"))(100)
+plot(l2011$B1_sre, col=clb)
+                        
+#multiframe
+par(mfrow=c(1,2))
+                        
