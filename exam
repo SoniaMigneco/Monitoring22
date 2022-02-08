@@ -34,7 +34,36 @@ stack_cropped<-crop(scw,ext)
 #plot the images
 #first create a color ramp palette
 cl<-colorRampPalette(c("blue","light blue","pink","yellow"))(100)
-plot(scw, col=cl)#assign the color palette
+plot(stack_cropped, col=cl)#assign the color palette
+
+
+
+#ALTERNATIVE TO PLOT WITH THE SAME COLORBAR VALUES
+
+#ggplot to plot the stack with the same color bar  NDVI AND LST, 
+#i have to set the right color rampp, better from viridis package
+
+
+library(rasterVis)
+library(ggplot2)
+library(viridis)
+
+#with viridis
+  gplot(stack_cropped) + 
+  geom_tile(aes(fill = value)) +
+  facet_wrap(~ variable) +
+  scale_fill_viridis(option="brewer-yellow-green-blue") +
+  ggtitle("VOGLIO 10 GIN TONIC") +
+  coord_equal()
+
+gplot(stack_cropped) + 
+  geom_tile(aes(fill = value)) +
+  facet_wrap(~ variable) +
+  scale_fill_gradientn(colours = rev(terrain.colors(225))) +
+  coord_equal()
+
+
+
 
 #use ggplot with the package ggplot2 and RStoolbox
 #create a ggplot of the first and final images 2000 vs. 2015 
