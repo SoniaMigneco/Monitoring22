@@ -68,12 +68,11 @@ gplot(stack_cropped) +
 #use ggplot with the package ggplot2 and RStoolbox
 #create a ggplot of the first and final images 2006 vs. 2021 
 #use palette of viridis function "magma"
-gp1<-ggplot()+geom_raster(swc$c_gls_SWE5K_200601270000_NHEMI_SSMIS_V1.0.2nc., mapping=aes(x=x, y=y, fill=c_gls_SWE5K_200601270000_NHEMI_SSMIS_V1.0.2nc.)+
+gp1<-ggplot()+geom_raster(swc$c_gls_SWE5K_200601270000_NHEMI_SSMIS_V1.0.2nc., mapping=aes(x=x, y=y, fill=Snow.Water.Equivalent.1)+
 scale_fill_viridis(option="magma")+ggtitle("snow water equivalent in 2006")
 
 gp2<-ggplot()+geom_raster(swc$c_gls_SWE5K_202101270000_NHEMI_SSMIS_V1.0.2.nc, mapping=aes(x=x, y=y, fill=c_gls_SWE5K_202101270000_NHEMI_SSMIS_V1.0.2.nc)+
 scale_fill_viridis(option="magma")+ggtitle("snow water equivalent in 2015")
-
 #use the packages patchwork for create a multiframe with the two images
 # gp1/gp2 one in top of the other
 gp1+gp2 
