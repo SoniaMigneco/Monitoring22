@@ -20,6 +20,8 @@ setwd("~/lab/greenland") # Linux
 rlist <- list.files(pattern="lst")
 rlist
 
+import <- lapply(rlist,raster)
+import #uguale a list_rast??
 #raster function for single layer, brick function for multiple layers(controlla nell'originale)
 list_rast <- lapply(rlist,raster)
 list_rast
@@ -37,13 +39,37 @@ scale_fill_viridis(option="viridis")
 #fare la stessa cosa per il secondo 
 #let's patchwork them togheter 
 #diamo un nome ad entrambi i ggplot p1, p2
+#devo mettere:
+library(ggplot2)
+library(patchwork)
+p1/p2
+
+#come ritagliare l'area che ci interessa
+# longitud (from tot to tot)
+# latitud (to tot to tot)
+
+#crop the stack to the extent of..
+ext (#lat e long)
+extension <- crop(s, ext) 
+#stack_cropped <- crop (smowstack, ext) # this will crop all stack, and then single variables (layers) can be extracted
+#separati per summer and winter
+
+#TGr= Temperature of GreenLand 
 TGr <- stack(import)
 TGr
 plot(TGr)
+#mettere prima
+library(ggplot2)
+library(RStoolbox) # to put raster object inside ggplot
+library(patchwork)
+library(viridis)
 
 #levelplot(TGr)
 cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
 plot(TGr, col=cl)
+#ggplot of first and final images 2000 vs 2015
+
+
 
 plot(TGr,col=cl, names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
 
@@ -60,9 +86,18 @@ scale_fill_viridis(option="magma")
 
 p1+p2
 
+#plotting frequency distribution of data 
+hist # per avere histogram of the data
+par(mfrowr=c(1, 2)) # per plottarli insieme 
+hist(tgr$lst_2000)
+hist(tgr$lst_2015)
+#puoi farlo anche con più anni aggiungendo una riga e i vari singoli hist per anno 
+
 # stats
 
 plot(TGr$lst_2000, TGr$lst_2015)
 abline(0,1,col="red")
 
 pairs(TGr)
+
+# make a plot with all the histograms and all the regressions for all the variables che si può fare sia con par(mfrow) o con pairs 
