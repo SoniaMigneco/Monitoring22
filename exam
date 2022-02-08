@@ -1,4 +1,4 @@
-#Snow water equivalent changes
+#Snow water equivalent Greenland
 
 install.packages("raster") #needed for work with raster file
 install.packages("RStoolbox") #needed for remote sensing image processing
@@ -27,7 +27,7 @@ list_rast #see the information of the images
 #make the stack of the file
 scw<-stack(list_rast)
 
-ext<-c(0,20,30,50) #create the extenction of coordiantes first
+ext<-c(0,50, 50,80) #create the extenction of coordiantes first
 #crop use the stack and than extarct the images
 stack_cropped<-crop(scw,ext) 
 
