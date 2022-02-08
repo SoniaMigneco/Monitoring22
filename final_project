@@ -1,0 +1,68 @@
+# R_code_greenland.r
+
+# Time series analysis
+# Greenland increase of temperature
+# Data and code from Emanuela Cosma
+
+# install.packages("raster")
+# install.packages("rasterVis")
+library(raster)
+#library(rasterVis) 
+library(patchwork)
+# library(rgdal)
+
+setwd("~/lab/greenland") # Linux
+# setwd("C:/lab/greenland") # Windows
+# setwd("/Users/name/Desktop/lab/greenland") # Mac 
+
+# list f files:
+#dopo pattern= metti quello che c'è in comune tra le immagini per caricarle entrambe 
+rlist <- list.files(pattern="lst")
+rlist
+
+#raster function for single layer, brick function for multiple layers(controlla nell'originale)
+list_rast <- lapply(rlist,raster)
+list_rast
+
+#stack per mettere i file insieme
+snowstack <- stack(list_rast)
+#le due diverse:
+ssummer <- snowstack$#nomedelfile
+swinter <- snowstack$#nomedelfile
+
+ggplot()+
+geom_raster(ssummer, mapping = aes(x=x, y=y, fill=#ilnomees:snow.cover.estent))+
+scale_fill_viridis(option="viridis")
+#avoid turbo because color blind peaple cannot see that 
+#fare la stessa cosa per il secondo 
+#let's patchwork them togheter 
+#diamo un nome ad entrambi i ggplot p1, p2
+TGr <- stack(import)
+TGr
+plot(TGr)
+
+#levelplot(TGr)
+cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
+plot(TGr, col=cl)
+
+plot(TGr,col=cl, names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
+
+plot(TGr,col.regions=cl, main="LST variation in time", names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
+
+p1 <- ggplot() + 
+geom_raster(TGr$lst_2000, mapping = aes(x=x, y=y, fill=lst_2000)) +
+scale_fill_viridis(option="magma") 
+# ggtitle("cividis palette")
+
+p2 <- ggplot() + 
+geom_raster(TGr$lst_2015, mapping = aes(x=x, y=y, fill=lst_2015)) +
+scale_fill_viridis(option="magma") 
+
+p1+p2
+
+# stats
+
+plot(TGr$lst_2000, TGr$lst_2015)
+abline(0,1,col="red")
+
+pairs(TGr)
