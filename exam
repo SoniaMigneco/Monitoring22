@@ -1,4 +1,4 @@
-#Snow water equivalent Greenland
+#Snow water equivalent 
 
 install.packages("raster") #needed for work with raster file
 install.packages("RStoolbox") #needed for remote sensing image processing
@@ -12,7 +12,7 @@ library(ggplot2)
 library(patchwork) 
 library(viridis)
 
-# must set the working directory, for winter 
+# must set the working directory: for winter 
 setwd("/Users/soniamigneco/Desktop/monw")
 
 
@@ -44,82 +44,85 @@ plot(stack_cropped, col=cl)#assign the color palette
 #i have to set the right color rampp, better from viridis package
 
 
-library(rasterVis)
+library(rasterVis)#?
 library(ggplot2)
 library(viridis)
 
 #with viridis
   gplot(stack_cropped) + 
   geom_tile(aes(fill = value)) +
-  facet_wrap(~ variable) +
+  facet_wrap(~ variable) + # to put all the variables in the same pannel 
   scale_fill_viridis(option="viridis") +
   ggtitle("VOGLIO 10 GIN TONIC") +
   coord_equal()
 
-gplot(stack_cropped) + 
-  geom_tile(aes(fill = value)) +
-  facet_wrap(~ variable) +
-  scale_fill_gradientn(colours = rev(terrain.colors(225))) +
-  coord_equal()
+
+#create the histograms 
+hist(stack_cropped) 
 
 
-
-
-#use ggplot with the package ggplot2 and RStoolbox
-#create a ggplot of the first and final images 2006 vs. 2021 
-#use palette of viridis function "magma"
-gp1<-ggplot()+geom_raster(swc$c_gls_SWE5K_200601270000_NHEMI_SSMIS_V1.0.2nc., mapping=aes(x=x, y=y, fill=Snow.Water.Equivalent.1)+
-scale_fill_viridis(option="magma")+ggtitle("snow water equivalent in 2006")
-
-gp2<-ggplot()+geom_raster(swc$c_gls_SWE5K_202101270000_NHEMI_SSMIS_V1.0.2.nc, mapping=aes(x=x, y=y, fill=c_gls_SWE5K_202101270000_NHEMI_SSMIS_V1.0.2.nc)+
-scale_fill_viridis(option="magma")+ggtitle("snow water equivalent in 2015")
-#use the packages patchwork for create a multiframe with the two images
-# gp1/gp2 one in top of the other
-gp1+gp2 
-
-#create a histogram
-hist(swc$lst_2000) #general distribution 
-hist(swc$lst_2015) #strange situation with two pics
-
-#plot the frequency graphical representation in a multiframe
-par(mfrow=c(1,2)) # (nrow,ncol)
-hist(grl$lst_2000)
-hist(grl$lst_2015)
-
-#now do this for all the graphics
+#plot the frequency graphical representation in a multiframe (ma mi serve? non è uguale?)
 par(mfrow=c(2,2)) 
-hist(grl$lst_2000)
-hist(grl$lst_2005)
-hist(grl$lst_2010)
-hist(grl$lst_2015)
+hist(stack_cropped$Snow.Water.Equivalent.1)
+hist(stack_cropped$Snow.Water.Equivalent.2)
+hist(stack_cropped$Snow.Water.Equivalent.3)
+hist(stack_cropped$Snow.Water.Equivalent.4)
+
 
 dev.off() #clear the divice
 #see the distribution of value 
 #first plot the two images 
 plot(grl$lst_2010, grl$lst_2015)
+#y is the slope, x is the intersection 
 #y=b*x+a  witch b=1 a=0
 #use abline(a,b) function
+plot(stack_cropped$Snow.Water.Equivalent.1, stack_cropped$Snow.Water.Equivalent.4) 
 abline(0,1,col="red")
 
-#create a limit
-plot(grl$lst_2010, grl$lst_2015, xlim=c(12500,15000), ylim=c(12500,15000))
-abline(0,1,col="red")
-#the point upper the red line are the value in 2015 higer than 2010
+#the point upper the red line are the value (in 2015 higer than 2010)cambia
 
-# EXERCISE: make a plot with all the histograms and all regretion
-par(mfrow=c(4,3))
-hist(grl$lst_2000)
-hist(grl$lst_2005)
-hist(grl$lst_2010)
-hist(grl$lst_2015)
-plot(grl$lst_2010, grl$lst_2015, xlim=c(12500,15000), ylim=c(12500,15000))
-plot(grl$lst_2010, grl$lst_2005, xlim=c(12500,15000), ylim=c(12500,15000))
-plot(grl$lst_2010, grl$lst_2000, xlim=c(12500,15000), ylim=c(12500,15000))
-plot(grl$lst_2015, grl$lst_2005, xlim=c(12500,15000), ylim=c(12500,15000))
-plot(grl$lst_2015, grl$lst_2000, xlim=c(12500,15000), ylim=c(12500,15000))
-plot(grl$lst_2005, grl$lst_2000, xlim=c(12500,15000), ylim=c(12500,15000))
-#finish
 
-#simple and faster way to do
+#simple and faster way to make a plot with all the histograms and all regretion
 #use th stack with the function pairs=create a scatterplot matrix
-pairs(grl)
+pairs(stack_cropped)
+
+#summer-----------------------------------------------------------------------------------------
+# must set the working directory: for winter 
+setwd("/Users/soniamigneco/Desktop/mons")
+
+
+#upload all the images with lapply
+rlist<-list.files(pattern=".nc")
+rlist #see the elements of the list
+
+#upload the images
+list_rast<-lapply(rlist, raster) #raster because the images have single layer
+list_rast #see the information of the images
+
+#make the stack of the file
+scw<-stack(list_rast)
+
+ext<-c(0,50, 50,80) #create the extenction of coordiantes first (Norvegia)
+#crop use the stack and than extarct the images
+stack_cropped<-crop(scw,ext) 
+
+#plot the images
+#first create a color ramp palette
+cl<-colorRampPalette(c("blue","light blue","pink","yellow"))(100)
+plot(stack_cropped, col=cl)#assign the color palette
+
+#ggplot to plot the stack with the same color bar  ((NDVI AND LST)sostituire), 
+#i have to set the right color rampp, better from viridis package
+
+
+library(rasterVis)#?
+library(ggplot2)
+library(viridis)
+
+#with viridis
+  gplot(stack_cropped) + 
+  geom_tile(aes(fill = value)) +
+  facet_wrap(~ variable) + # to put all the variables in the same pannel 
+  scale_fill_viridis(option="viridis") +
+  ggtitle("VOGLIO 10 GIN TONIC") +
+  coord_equal()
