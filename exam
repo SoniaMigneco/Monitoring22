@@ -86,6 +86,37 @@ abline(0,1,col="red")
 #use th stack with the function pairs=create a scatterplot matrix
 pairs(stack_cropped)
 
+#LTS------------------------------------------------------------------------------------------------
+library(gdalUtils)
+library(raster)
+
+fileslst <- dir(pattern = ".hdf")
+fileslst
+
+
+filenamelst <- substr(fileslst,10,13)
+filenamelst <- paste0("NPP", filenamelst, ".tif")
+filenamelst
+
+i <- 1
+
+for (i in 1:5){
+  sds <- get_subdatasets(fileslst[i])                  
+  gdal_translate(sds[1], dst_dataset = filenamelst[i])  #dstt_dataset = Character. The destination file name.
+}
+
+#lets upload the tif files and then making a stack
+rlistlst <- list.files(pattern="NPP")
+rlistlst
+importlst <- lapply(rlistlst,raster) #apply a function over a list # raster function to create a RasterLayer object
+LSTstack <- stack(importlst)
+
+#lets crop the stack
+# crop the stack to the extent of Sicily
+ext <- c(11, 16, 35, 40)
+LSTstackcrop <- crop(LSTstack, ext)
+
+
 #summer-----------------------------------------------------------------------------------------
 # must set the working directory: for winter 
 setwd("/Users/soniamigneco/Desktop/mons")
