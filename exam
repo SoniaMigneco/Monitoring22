@@ -12,7 +12,9 @@ library(ggplot2)
 library(patchwork) 
 library(viridis)
 
-# must set the working directory: for winter 
+#WINTER-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# must set the working directory 
 setwd("/Users/soniamigneco/Desktop/monw")
 
 
@@ -87,6 +89,9 @@ pairs(stack_cropped)
 
 #LTS------------------------------------------------------------------------------------------------
 
+# must set the working directory 
+setwd("/Users/soniamigneco/Desktop/LTS")
+
 #lets upload the files and then making a stack
 rlistlst <- list.files(pattern=".nc")
 rlistlst
@@ -96,7 +101,12 @@ LSTstack <- stack(importlst)
 #lets crop the stack
 # crop the stack to the extent of the Scandinavian peninsula
 ext <- c(0,50, 50,80)
-LSTstackcrop <- crop(LSTstack, ext)
+LSTstack_cropped <- crop(LSTstack, ext)
+
+#plot the images
+#first create a color ramp palette
+cl<-colorRampPalette(c("blue","light blue","pink","red"))(100)
+plot(LTSstack_cropped, col=cl)#assign the color palette
 
 
 #summer-----------------------------------------------------------------------------------------
