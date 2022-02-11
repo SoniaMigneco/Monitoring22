@@ -96,28 +96,8 @@ pairs(Wstack_cropped)
 # must set the working directory 
 setwd("/Users/soniamigneco/Desktop/LTS")
 
-#install.packages("gdalUtils")
-
-library(gdalUtils)
-library(raster)
-
-fileslst <- dir(pattern = ".hdf")
-fileslst
-
-
-filenamelst <- substr(fileslst,10,13)
-filenamelst <- paste0("NPP", filenamelst, ".tif")
-filenamelst
-
-i <- 1
-
-for (i in 1:5){
-  sds <- get_subdatasets(fileslst[i])                  
-  gdal_translate(sds[1], dst_dataset = filenamelst[i])  #dstt_dataset = Character. The destination file name.
-}
-
 #lets upload the files and then making a stack
-rlistlst <- list.files(pattern="NPP")
+rlistlst <- list.files(pattern=".nc")
 rlistlst
 importlst <- lapply(rlistlst,raster) #apply a function over a list # raster function to create a RasterLayer object
 LSTstack <- stack(importlst)
