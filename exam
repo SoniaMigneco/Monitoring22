@@ -78,14 +78,18 @@ dev.off() #clear the divice
 #y=b*x+a  witch b=1 a=0
 #use abline(a,b) function
 plot(Wstack_cropped$Snow.Water.Equivalent.1, Wstack_cropped$Snow.Water.Equivalent.4) 
+plot(Wstack_cropped$Snow.Water.Equivalent.1, Wstack_cropped$Snow.Water.Equivalent.4, xlim=c(0,150), ylim=c(0,150)) 
 abline(0,1,col="red")
+
+plot(Wstack_cropped$Snow.Water.Equivalent.1, Wstack_cropped$Snow.Water.Equivalent.4, xlim=c(0,150), ylim=c(0,150)) 
+
 
 #the point upper the red line are the value (in 2015 higer than 2010)cambia
 
 
 #simple and faster way to make a plot with all the histograms and all regretion
 #use th stack with the function pairs=create a scatterplot matrix
-pairs(stack_cropped)
+pairs(Wstack_cropped)
 
 #LTS------------------------------------------------------------------------------------------------
 
@@ -106,10 +110,10 @@ LSTstack_cropped <- crop(LSTstack, ext)
 #plot the images
 #first create a color ramp palette
 cl<-colorRampPalette(c("blue","light blue","pink","red"))(100)
-plot(LTSstack_cropped, col=cl)#assign the color palette
+plot(LSTstack_cropped, col=cl)#assign the color palette
 
 
-#summer-----------------------------------------------------------------------------------------
+#SUMMER-----------------------------------------------------------------------------------------
 # must set the working directory: for winter 
 setwd("/Users/soniamigneco/Desktop/mons")
 
