@@ -29,18 +29,19 @@ scw<-stack(list_rast)
 
 ext<-c(0,50, 50,80) #create the extenction of coordiantes first (Norvegia)
 #crop use the stack and than extarct the images
-stack_cropped<-crop(scw,ext) 
+Wstack_cropped<-crop(scw,ext) 
 
 #plot the images
 #first create a color ramp palette
-cl<-colorRampPalette(c("blue","light blue","pink","yellow"))(100)
-plot(stack_cropped, col=cl)#assign the color palette
+cl<-colorRampPalette(c("blue","light blue","pink","red"))(100)
+plot(Wstack_cropped, col=cl)#assign the color palette
+
 
 
 
 #ALTERNATIVE TO PLOT WITH THE SAME COLORBAR VALUES
 
-#ggplot to plot the stack with the same color bar  ((NDVI AND LST)sostituire), 
+#ggplot to plot the stack with the same color bar value, 
 #i have to set the right color rampp, better from viridis package
 
 
@@ -49,7 +50,7 @@ library(ggplot2)
 library(viridis)
 
 #with viridis
-  gplot(stack_cropped) + 
+  gplot(Wstack_cropped) + 
   geom_tile(aes(fill = value)) +
   facet_wrap(~ variable) + # to put all the variables in the same pannel 
   scale_fill_viridis(option="viridis") +
@@ -58,25 +59,23 @@ library(viridis)
 
 
 #create the histograms 
-hist(stack_cropped) 
+hist(Wstack_cropped) 
 
 
 #plot the frequency graphical representation in a multiframe (ma mi serve? non è uguale?)
 par(mfrow=c(2,2)) 
-hist(stack_cropped$Snow.Water.Equivalent.1)
-hist(stack_cropped$Snow.Water.Equivalent.2)
-hist(stack_cropped$Snow.Water.Equivalent.3)
-hist(stack_cropped$Snow.Water.Equivalent.4)
+hist(Wstack_cropped$Snow.Water.Equivalent.1)
+hist(Wstack_cropped$Snow.Water.Equivalent.2)
+hist(Wstack_cropped$Snow.Water.Equivalent.3)
+hist(Wstack_cropped$Snow.Water.Equivalent.4)
 
 
 dev.off() #clear the divice
 #see the distribution of value 
-#first plot the two images 
-plot(grl$lst_2010, grl$lst_2015)
 #y is the slope, x is the intersection 
 #y=b*x+a  witch b=1 a=0
 #use abline(a,b) function
-plot(stack_cropped$Snow.Water.Equivalent.1, stack_cropped$Snow.Water.Equivalent.4) 
+plot(Wstack_cropped$Snow.Water.Equivalent.1, Wstack_cropped$Snow.Water.Equivalent.4) 
 abline(0,1,col="red")
 
 #the point upper the red line are the value (in 2015 higer than 2010)cambia
@@ -87,33 +86,16 @@ abline(0,1,col="red")
 pairs(stack_cropped)
 
 #LTS------------------------------------------------------------------------------------------------
-library(gdalUtils)
-library(raster)
 
-fileslst <- dir(pattern = ".hdf")
-fileslst
-
-
-filenamelst <- substr(fileslst,10,13)
-filenamelst <- paste0("NPP", filenamelst, ".tif")
-filenamelst
-
-i <- 1
-
-for (i in 1:5){
-  sds <- get_subdatasets(fileslst[i])                  
-  gdal_translate(sds[1], dst_dataset = filenamelst[i])  #dstt_dataset = Character. The destination file name.
-}
-
-#lets upload the tif files and then making a stack
-rlistlst <- list.files(pattern="NPP")
+#lets upload the files and then making a stack
+rlistlst <- list.files(pattern=".nc")
 rlistlst
 importlst <- lapply(rlistlst,raster) #apply a function over a list # raster function to create a RasterLayer object
 LSTstack <- stack(importlst)
 
 #lets crop the stack
-# crop the stack to the extent of Sicily
-ext <- c(11, 16, 35, 40)
+# crop the stack to the extent of the Scandinavian peninsula
+ext <- c(0,50, 50,80)
 LSTstackcrop <- crop(LSTstack, ext)
 
 
@@ -131,27 +113,77 @@ list_rast<-lapply(rlist, raster) #raster because the images have single layer
 list_rast #see the information of the images
 
 #make the stack of the file
-scw<-stack(list_rast)
+scs<-stack(list_rast)
 
 ext<-c(0,50, 50,80) #create the extenction of coordiantes first (Norvegia)
 #crop use the stack and than extarct the images
-stack_cropped<-crop(scw,ext) 
+Sstack_cropped<-crop(scs,ext) 
 
 #plot the images
 #first create a color ramp palette
-cl<-colorRampPalette(c("blue","light blue","pink","yellow"))(100)
-plot(stack_cropped, col=cl)#assign the color palette
+cl<-colorRampPalette(c("blue","light blue","pink","red"))(100)
+plot(Sstack_cropped, col=cl)#assign the color palette
 
-#ggplot to plot the stack with the same color bar  ((NDVI AND LST)sostituire), 
+
+#SPRING-------------------------------------------------------------------------------------------------------------------------------------------------
+setwd("/Users/soniamigneco/Desktop/monp")
+
+
+#upload all the images with lapply
+rlist<-list.files(pattern=".nc")
+rlist #see the elements of the list
+
+#upload the images
+list_rast<-lapply(rlist, raster) #raster because the images have single layer
+list_rast #see the information of the images
+
+#make the stack of the file
+scp<-stack(list_rast)
+
+ext<-c(0,50, 50,80) #create the extenction of coordiantes first (Norvegia)
+#crop use the stack and than extarct the images
+Pstack_cropped<-crop(scs,ext) 
+
+#plot the images
+#first create a color ramp palette
+cl<-colorRampPalette(c("blue","light blue","pink","red"))(100)
+plot(Pstack_cropped, col=cl)#assign the color palette
+
+#AUTUMN--------------------------------------------------------------------------------------------------------------------------------------------------
+setwd("/Users/soniamigneco/Desktop/mona")
+
+
+#upload all the images with lapply
+rlist<-list.files(pattern=".nc")
+rlist #see the elements of the list
+
+#upload the images
+list_rast<-lapply(rlist, raster) #raster because the images have single layer
+list_rast #see the information of the images
+
+#make the stack of the file
+sca<-stack(list_rast)
+
+ext<-c(0,50, 50,80) #create the extenction of coordiantes first (Norvegia)
+#crop use the stack and than extarct the images
+Astack_cropped<-crop(sca,ext) 
+
+#plot the images
+#first create a color ramp palette
+cl<-colorRampPalette(c("blue","light blue","pink","red"))(100)
+plot(Astack_cropped, col=cl)#assign the color palette
+
+#ALTERNATIVE TO PLOT WITH THE SAME COLORBAR VALUES
+
+#ggplot to plot the stack with the same color bar value, 
 #i have to set the right color rampp, better from viridis package
-
 
 library(rasterVis)#?
 library(ggplot2)
 library(viridis)
 
 #with viridis
-  gplot(stack_cropped) + 
+  gplot(Astack_cropped) + 
   geom_tile(aes(fill = value)) +
   facet_wrap(~ variable) + # to put all the variables in the same pannel 
   scale_fill_viridis(option="viridis") +
