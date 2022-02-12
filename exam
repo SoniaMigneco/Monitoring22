@@ -56,7 +56,7 @@ library(viridis)
   geom_tile(aes(fill = value)) +
   facet_wrap(~ variable) + # to put all the variables in the same pannel 
   scale_fill_viridis(option="viridis") +
-  ggtitle("VOGLIO 10 GIN TONIC") +
+  ggtitle("SWE Winter 2006-2011-2016-2021") +
   coord_equal()
 
 
@@ -77,14 +77,11 @@ dev.off() #clear the divice
 #y is the slope, x is the intersection 
 #y=b*x+a  witch b=1 a=0
 #use abline(a,b) function
-plot(Wstack_cropped$Snow.Water.Equivalent.1, Wstack_cropped$Snow.Water.Equivalent.4) 
 plot(Wstack_cropped$Snow.Water.Equivalent.1, Wstack_cropped$Snow.Water.Equivalent.4, xlim=c(0,150), ylim=c(0,150)) 
-abline(0,1,col="red")
-
-plot(Wstack_cropped$Snow.Water.Equivalent.1, Wstack_cropped$Snow.Water.Equivalent.4, xlim=c(0,150), ylim=c(0,150)) 
+abline(0,1,col="red") 
 
 
-#the point upper the red line are the value (in 2015 higer than 2010)cambia
+#the point upper the red line are the value in 2021 higer than 2006
 
 
 #simple and faster way to make a plot with all the histograms and all regretion
@@ -99,8 +96,9 @@ setwd("/Users/soniamigneco/Desktop/LTS")
 #lets upload the files and then making a stack
 rlistlst <- list.files(pattern=".nc")
 rlistlst
-importlst <- lapply(rlistlst,raster) #apply a function over a list # raster function to create a RasterLayer object
-LSTstack <- stack(importlst)
+
+list_rast <- lapply(rlistlst,raster) #apply a function over a list # raster function to create a RasterLayer object
+LSTstack <- stack(list_rast)
 
 #lets crop the stack
 # crop the stack to the extent of the Scandinavian peninsula
@@ -111,6 +109,18 @@ LSTstack_cropped <- crop(LSTstack, ext)
 #first create a color ramp palette
 cl<-colorRampPalette(c("blue","light blue","pink","red"))(100)
 plot(LSTstack_cropped, col=cl)#assign the color palette
+
+library(rasterVis)#?
+library(ggplot2)
+library(viridis)
+
+#with viridis
+  gplot(LSTstack_cropped) + 
+  geom_tile(aes(fill = value)) +
+  facet_wrap(~ variable) + # to put all the variables in the same pannel 
+  scale_fill_viridis(option="viridis") +
+  ggtitle("LST Winter 2016-2021") +
+  coord_equal()
 
 
 #SUMMER-----------------------------------------------------------------------------------------
@@ -139,6 +149,15 @@ cl<-colorRampPalette(c("blue","light blue","pink","red"))(100)
 plot(Sstack_cropped, col=cl)#assign the color palette
 
 
+dev.off() #clear the divice
+#see the distribution of value 
+#y is the slope, x is the intersection 
+#y=b*x+a  witch b=1 a=0
+
+plot(Sstack_cropped$Snow.Water.Equivalent.1, Sstack_cropped$Snow.Water.Equivalent.4, xlim=c(0,150), ylim=c(0,150)) 
+abline(0,1,col="red") 
+
+
 #SPRING-------------------------------------------------------------------------------------------------------------------------------------------------
 setwd("/Users/soniamigneco/Desktop/monp")
 
@@ -156,12 +175,33 @@ scp<-stack(list_rast)
 
 ext<-c(0,50, 50,80) #create the extenction of coordiantes first (Norvegia)
 #crop use the stack and than extarct the images
-Pstack_cropped<-crop(scs,ext) 
+Pstack_cropped<-crop(scp,ext) 
 
 #plot the images
 #first create a color ramp palette
 cl<-colorRampPalette(c("blue","light blue","pink","red"))(100)
 plot(Pstack_cropped, col=cl)#assign the color palette
+
+library(rasterVis)#?
+library(ggplot2)
+library(viridis)
+
+#with viridis
+  gplot(Pstack_cropped) + 
+  geom_tile(aes(fill = value)) +
+  facet_wrap(~ variable) + # to put all the variables in the same pannel 
+  scale_fill_viridis(option="viridis") +
+  ggtitle("SWE in Spring 2006-2011-2016-2021") +
+  coord_equal()
+
+
+dev.off() #clear the divice
+#see the distribution of value 
+#y is the slope, x is the intersection 
+#y=b*x+a  witch b=1 a=0
+
+plot(Pstack_cropped$Snow.Water.Equivalent.1, Pstack_cropped$Snow.Water.Equivalent.4, xlim=c(0,150), ylim=c(0,150)) 
+abline(0,1,col="red") 
 
 #AUTUMN--------------------------------------------------------------------------------------------------------------------------------------------------
 setwd("/Users/soniamigneco/Desktop/mona")
@@ -201,5 +241,14 @@ library(viridis)
   geom_tile(aes(fill = value)) +
   facet_wrap(~ variable) + # to put all the variables in the same pannel 
   scale_fill_viridis(option="viridis") +
-  ggtitle("VOGLIO 10 GIN TONIC") +
+  ggtitle("SWE Autumn 2006-2011-2016-2021") +
   coord_equal()
+
+
+dev.off() #clear the divice
+#see the distribution of value 
+#y is the slope, x is the intersection 
+#y=b*x+a  witch b=1 a=0
+
+plot(Astack_cropped$Snow.Water.Equivalent.1, Astack_cropped$Snow.Water.Equivalent.4, xlim=c(0,150), ylim=c(0,150)) 
+abline(0,1,col="red") 
