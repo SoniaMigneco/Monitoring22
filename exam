@@ -47,7 +47,7 @@ plot(Wstack_cropped, col=cl)#assign the color palette
 #i have to set the right color rampp, better from viridis package
 
 
-library(rasterVis)#?
+library(rasterVis)
 library(ggplot2)
 library(viridis)
 
@@ -110,7 +110,7 @@ LSTstack_cropped <- crop(LSTstack, ext)
 cl<-colorRampPalette(c("blue","light blue","pink","red"))(100)
 plot(LSTstack_cropped, col=cl)#assign the color palette
 
-library(rasterVis)#?
+library(rasterVis)
 library(ggplot2)
 library(viridis)
 
@@ -182,7 +182,7 @@ Pstack_cropped<-crop(scp,ext)
 cl<-colorRampPalette(c("blue","light blue","pink","red"))(100)
 plot(Pstack_cropped, col=cl)#assign the color palette
 
-library(rasterVis)#?
+library(rasterVis)
 library(ggplot2)
 library(viridis)
 
@@ -232,7 +232,7 @@ plot(Astack_cropped, col=cl)#assign the color palette
 #ggplot to plot the stack with the same color bar value, 
 #i have to set the right color rampp, better from viridis package
 
-library(rasterVis)#?
+library(rasterVis)
 library(ggplot2)
 library(viridis)
 
