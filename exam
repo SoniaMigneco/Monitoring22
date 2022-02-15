@@ -60,16 +60,6 @@ library(viridis)
   coord_equal()
 
 
-#create the histograms 
-hist(Wstack_cropped) 
-
-
-#plot the frequency graphical representation in a multiframe (ma mi serve? non è uguale?)
-par(mfrow=c(2,2)) 
-hist(Wstack_cropped$Snow.Water.Equivalent.1)
-hist(Wstack_cropped$Snow.Water.Equivalent.2)
-hist(Wstack_cropped$Snow.Water.Equivalent.3)
-hist(Wstack_cropped$Snow.Water.Equivalent.4)
 
 
 dev.off() #clear the divice
@@ -84,7 +74,7 @@ abline(0,1,col="red")
 #the point upper the red line are the value in 2021 higer than 2006
 
 
-#simple and faster way to make a plot with all the histograms and all regretion
+#simple and faster way to make a plot with all the histograms and all regression
 #use th stack with the function pairs=create a scatterplot matrix
 pairs(Wstack_cropped)
 
