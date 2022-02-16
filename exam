@@ -77,10 +77,10 @@ abline(0,1,col="red")
 #use th stack with the function pairs=create a scatterplot matrix
 pairs(Wstack_cropped)
 
-#LTS------------------------------------------------------------------------------------------------
+#LST------------------------------------------------------------------------------------------------
 
 # must set the working directory 
-setwd("/Users/soniamigneco/Desktop/LTS")
+setwd("/Users/soniamigneco/Desktop/LST")
 
 #lets upload the files and then making a stack
 rlistlst <- list.files(pattern=".nc")
