@@ -186,7 +186,7 @@ library(viridis)
 
 dev.off() #clear the divice
 #see the distribution of value 
-#y is the slope, x is the intersection 
+#b is the slope, a is the intersection 
 #y=b*x+a  witch b=1 a=0
 
 plot(Pstack_cropped$Snow.Water.Equivalent.1, Pstack_cropped$Snow.Water.Equivalent.4, xlim=c(0,150), ylim=c(0,150)) 
@@ -236,7 +236,7 @@ library(viridis)
 
 dev.off() #clear the divice
 #see the distribution of value 
-#y is the slope, x is the intersection 
+#b is the slope, a is the intersection 
 #y=b*x+a  witch b=1 a=0
 
 plot(Astack_cropped$Snow.Water.Equivalent.1, Astack_cropped$Snow.Water.Equivalent.4, xlim=c(0,150), ylim=c(0,150)) 
