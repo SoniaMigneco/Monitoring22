@@ -61,7 +61,6 @@ library(viridis)
 
 
 
-
 dev.off() #clear the divice
 #see the distribution of value 
 #y is the slope, x is the intersection 
